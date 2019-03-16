@@ -21,20 +21,21 @@ from convert_to_matrix import convert_to_matrix, matrix_to_note
 from convert_to_midi import note_to_midi, midi_to_note
 
 #Создадим список нот
-notes = "D5 B5 B5 A5 B5 G5 D5 D5 - D5 B5 B5 C6 E6 D6 - D6 E5 E5 C6 C6 B5 A5 G5 - D5 B5 B6 A5 B5 G5".split(" ")
+#notes = "D5 B5 B5 A5 B5 G5 D5 D5 - D5 B5 B5 C6 E6 D6 - D6 E5 E5 C6 C6 B5 A5 G5 - D5 B5 B6 A5 B5 G5".split(" ")
 
 #Запишем ноты в файл test.mid
-note_to_midi('test.mid', notes)
+#note_to_midi('test.mid', notes)
 
 #Прочитаем ноты из файла
-notes_str = midi_to_note('test.mid', 0.3)
-print("--Прочитанные ноты\n",notes_str,"\n")
+notes_str = midi_to_note('samples/1.mid', 0.3)
+print(notes_str)
+note_to_midi('clear1.mid',notes_str)
 
 #Создадим матрицу из прочитанных нот
-matrix = convert_to_matrix(notes_str, 5)
-print("--Матрица--")
-[print(elem) for elem in matrix]
-print("\n")
+#matrix = convert_to_matrix(notes_str, 5)
+#print("--Матрица--")
+#[print(elem) for elem in matrix]
+#print("\n")
 
 #Преобразуем матрицу обратно в ноты
-print("--Преобразованные ноты из матрицы--\n",matrix_to_note(matrix, 5))
+#print("--Преобразованные ноты из матрицы--\n",matrix_to_note(matrix, 5))

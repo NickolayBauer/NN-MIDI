@@ -60,6 +60,7 @@ def midi_to_note(load_file, pause_time):
 	list_notes = []
 	mid = MidiFile(load_file)
 	for msg in mid:
+		print(msg)
 		if msg.type == "note_on":
 	 		if msg.time > 0.3:
 	 			list_notes.append("-")
