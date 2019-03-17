@@ -26,31 +26,32 @@ from mido import Message, MidiFile, MidiTrack
 # mid - объект класса MidiFile;
 # msg - элемент mid.
 
+
+#pause = 120 
+#одна нота при 140bpm
 def note_to_midi(save_file, notes):
 	outfile = MidiFile()
-
 	track = MidiTrack()
 	outfile.tracks.append(track)
 
-	track.append(Message('program_change', program=12))
+	track.append(Message('program_change', program=11))
+	default_pause = 240
+	pause = 0
 
-	delta = 250
-	default_delta = delta
-	pause = False
+	for i,default_elem in enumerate([key.ord_note(default_elem) for default_elem in notes]):
+		if i != 0: pause = default_pause 
+		if default_elem != -1:
+			elem = default_elem
+			track.append(Message('note_on', note=elem, velocity=100, time=pause))
+			pause = default_pause
+			track.append(Message('note_off', note=elem, velocity=100, time=pause))
 
-	pause_coef = 1.5
-	ticks_per_expr = 90
-	for elem in [key.ord_note(elem) for elem in notes]:
-		if elem != -1:
-			note = elem
-			track.append(Message('note_on', note=note, velocity=100, time = int(delta*pause_coef) if pause else delta))
-			pause = False
-			for j in range(delta // ticks_per_expr):
-				pitch =  ticks_per_expr // delta
-				track.append(Message('pitchwheel', pitch=pitch, time=ticks_per_expr))
-			track.append(Message('note_off', note=note, velocity=100, time=0))
 		else:
-			pause = True
+			pause+=default_pause
+			track.append(Message('note_on', note=elem, velocity=100, time=pause))
+			pause = default_pause
+			track.append(Message('note_off', note=elem, velocity=100, time=pause))
+
 
 	outfile.save(save_file)
 
@@ -59,12 +60,17 @@ def note_to_midi(save_file, notes):
 def midi_to_note(load_file, pause_time):
 	list_notes = []
 	mid = MidiFile(load_file)
-
-	for msg in mid:
-		if msg.type == "note_on":
-	 		if msg.time > pause_time:
-	 			for i in range(int(msg.time//pause_time)):
-	 				list_notes.append("-")
-	 		list_notes.append(key.chr_note(msg.note))
+	for track in mid.tracks:
+		for msg in track:
+			if msg.type == "note_on":
+		 		if msg.time <= pause_time:
+		 			for i in range(int(msg.time//pause_time)):
+		 				list_notes.append("-")
+		 	else:
+		 		list_notes.append(key.chr_note(msg.note))
 
 	return list_notes
+
+print(midi_to_note("123.mid", 480))
+note_to_midi("123.mid",["C5","-",'C5','-'])
+print(midi_to_note("123.mid", 480))

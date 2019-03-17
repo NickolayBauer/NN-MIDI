@@ -33,7 +33,6 @@ def mirror(sample, preset):
 				weight += sample[i][j] * preset[i][j]
 		print(weight)
 		
-create_bin_matrix()
 def nn():
 	sample = load_on_file("example.txt")
 	path = "text_presets/"
@@ -42,4 +41,3 @@ def nn():
 
 
 
-nn()
