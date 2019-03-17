@@ -14,7 +14,7 @@
 import key
 
 def empty_array(ind):
-	return [1 if ind == i else 0 for i in range(5*12)]
+	return [1 if ind == i else 0 for i in range(2*12)]
 
 def convert_to_matrix(notes_array, luft):
 	return [empty_array(key.ord_note(elem)-luft*12) for elem in notes_array]

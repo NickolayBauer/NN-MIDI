@@ -19,23 +19,22 @@
 
 from convert_to_matrix import convert_to_matrix, matrix_to_note
 from convert_to_midi import note_to_midi, midi_to_note
+from read_bin import save_to_file, load_on_file
+import os
 
-#Создадим список нот
-#notes = "D5 B5 B5 A5 B5 G5 D5 D5 - D5 B5 B5 C6 E6 D6 - D6 E5 E5 C6 C6 B5 A5 G5 - D5 B5 B6 A5 B5 G5".split(" ")
+def create_bin_matrix():
+	path = "samples/"
+	[save_to_file("text_presets/"+str(i),convert_to_matrix(midi_to_note(path+elem,0.27),4)) for i,elem in enumerate(os.listdir(path))]
 
-#Запишем ноты в файл test.mid
-#note_to_midi('test.mid', notes)
+def fun(one, two):
+	print("cool!")
 
-#Прочитаем ноты из файла
-notes_str = midi_to_note('samples/1.mid', 0.3)
-print(notes_str)
-note_to_midi('clear1.mid',notes_str)
+def nn():
+	sample = load_on_file("example.txt")
+	path = "text_presets/"
+	for elem in os.listdir(path):
+		fun(sample, load_on_file(path+elem))
 
-#Создадим матрицу из прочитанных нот
-#matrix = convert_to_matrix(notes_str, 5)
-#print("--Матрица--")
-#[print(elem) for elem in matrix]
-#print("\n")
 
-#Преобразуем матрицу обратно в ноты
-#print("--Преобразованные ноты из матрицы--\n",matrix_to_note(matrix, 5))
+
+nn()

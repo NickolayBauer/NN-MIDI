@@ -59,11 +59,12 @@ def note_to_midi(save_file, notes):
 def midi_to_note(load_file, pause_time):
 	list_notes = []
 	mid = MidiFile(load_file)
+
 	for msg in mid:
-		print(msg)
 		if msg.type == "note_on":
-	 		if msg.time > 0.3:
-	 			list_notes.append("-")
+	 		if msg.time > pause_time:
+	 			for i in range(int(msg.time//pause_time)):
+	 				list_notes.append("-")
 	 		list_notes.append(key.chr_note(msg.note))
 
 	return list_notes

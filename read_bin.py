@@ -6,7 +6,7 @@ def save_to_file(filename, info):
 
 #прочитать матрицу из файла
 def load_on_file(filename):
-	f = open(filename+'.txt', 'r').readlines()
+	f = open(filename, 'r').readlines()
 	return [eval(elem) for elem in f]
 
 #save_to_file('namefile', [[123],[1235],[12355]])  
