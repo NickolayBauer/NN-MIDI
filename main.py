@@ -26,14 +26,19 @@ def create_bin_matrix():
 	path = "samples/"
 	[save_to_file("text_presets/"+str(i),convert_to_matrix(midi_to_note(path+elem,0.27),4)) for i,elem in enumerate(os.listdir(path))]
 
-def fun(one, two):
-	print("cool!")
-
+def mirror(sample, preset):
+		weight = 0
+		for i, _ in enumerate(preset):
+			for j, _ in enumerate(preset[0]):
+				weight += sample[i][j] * preset[i][j]
+		print(weight)
+		
+create_bin_matrix()
 def nn():
 	sample = load_on_file("example.txt")
 	path = "text_presets/"
 	for elem in os.listdir(path):
-		fun(sample, load_on_file(path+elem))
+		mirror(sample, load_on_file(path+elem))
 
 
 
