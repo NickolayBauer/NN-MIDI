@@ -20,6 +20,7 @@
 from convert_to_matrix import convert_to_matrix, matrix_to_note
 from convert_to_midi import note_to_midi, midi_to_note
 from read_bin import save_to_file, load_on_file
+from itertools import zip_longest
 import os
 
 def create_bin_matrix():
@@ -40,4 +41,10 @@ def nn():
 		mirror(sample, load_on_file(path+elem))
 
 
+def chunks(lst, count):
+    return [list(elem) for elem in zip_longest(*[iter(lst)] * count)]
 
+
+
+matrix = [elem for elem in range(12)]
+print(chunks(matrix, 3))
