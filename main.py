@@ -17,7 +17,7 @@
 # notes_str - текстовая запись нот;
 # matrix - матрица созданная из нотной записи.
 
-from convert_to_matrix import convert_to_matrix, matrix_to_note
+from convert_to_matrix import convert_to_matrix, matrix_to_note, empty_array
 from convert_to_midi import note_to_midi, midi_to_note
 from read_bin import save_to_file, load_on_file
 from itertools import zip_longest
@@ -32,19 +32,15 @@ def mirror(sample, preset):
 		for i, _ in enumerate(preset):
 			for j, _ in enumerate(preset[0]):
 				weight += sample[i][j] * preset[i][j]
-		print(weight)
+		return weight
 		
-def nn():
-	sample = load_on_file("example.txt")
-	path = "text_presets/"
-	for elem in os.listdir(path):
-		mirror(sample, load_on_file(path+elem))
-
-
 def chunks(lst, count):
-    return [list(elem) for elem in zip_longest(*[iter(lst)] * count)]
+    return [list(elem) for elem in zip_longest(*[iter(lst)] * count, fillvalue = [0 for elem in range(len(lst[0]))]) ]
 
 
+def nn(sample, example, chunk):
+	return [mirror(exmpl, smpl) for exmpl, smpl in zip(chunks(load_on_file(example),chunk), chunks(load_on_file(sample),chunk))]
 
-matrix = [elem for elem in range(12)]
-print(chunks(matrix, 3))
+
+for i in range(5):
+	print(nn("example.txt", "text_presets/"+str(i)+".txt", 2))

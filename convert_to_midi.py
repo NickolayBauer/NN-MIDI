@@ -78,5 +78,3 @@ def midi_to_note(load_file, pause_time):
 
 	return filter_note(list_notes)
 
-note_to_midi("123.mid",["C5","D5","-",'E5','F5'])
-print(midi_to_note("123.mid", 480))
