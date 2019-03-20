@@ -25,7 +25,7 @@ import os
 
 def create_bin_matrix():
 	path = "samples/"
-	[save_to_file("text_presets/"+str(i),convert_to_matrix(midi_to_note(path+elem,0.27),4)) for i,elem in enumerate(os.listdir(path))]
+	[save_to_file("text_presets/"+str(i),convert_to_matrix(midi_to_note(path+elem),4)) for i,elem in enumerate(os.listdir(path))]
 
 def mirror(sample, preset):
 		weight = 0
@@ -42,5 +42,10 @@ def nn(sample, example, chunk):
 	return [mirror(exmpl, smpl) for exmpl, smpl in zip(chunks(load_on_file(example),chunk), chunks(load_on_file(sample),chunk))]
 
 
-for i in range(5):
-	print(nn("example.txt", "text_presets/"+str(i)+".txt", 2))
+#for i in range(5):
+#	print(nn("example.txt", "text_presets/"+str(i)+".txt", 2))
+
+
+#save_to_file("example", convert_to_matrix(midi_to_note("example.mid",480),4))
+
+save_to_file("example",convert_to_matrix(midi_to_note("example.mid"),4))

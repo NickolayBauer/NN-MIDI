@@ -30,15 +30,20 @@ from mido import Message, MidiFile, MidiTrack
 #pause = 120 
 #одна нота при 140bpm
 
-def filter_note(notes):
-	clear_list = []
-	for i,elem in enumerate(notes):
-		try:
-			if notes[i-1] != "-":
-				clear_list.append(elem)
-		except:
-			clear_list.append(elem)
-	return clear_list
+# def filter_note(notes):
+# 	clear_list = [notes[0]]
+# 	for i,elem in enumerate(notes):
+# 		try:
+# 			if notes[i-1] == "-":
+# 				if elem == "-":
+# 					clear_list.append(elem)
+# 			else:
+# 				clear_list.append(elem)
+# 		except:
+# 			print(elem)
+# 			clear_list.append(elem)
+# 	return clear_list
+
 
 def note_to_midi(save_file, notes):
 	outfile = MidiFile()
@@ -65,16 +70,25 @@ def note_to_midi(save_file, notes):
 
 
 
-def midi_to_note(load_file, pause_time):
-	list_notes = []
+def midi_to_note(load_file):
 	mid = MidiFile(load_file)
+	time_list = []
+	list_notes = []
+
 	for track in mid.tracks:
 		for msg in track:
-			if msg.type == "note_on" and msg.time <= pause_time:
+			if msg.type == "note_on" or msg.type == "note_off":
+				time_list.append(msg.time)
+
+	pause_time =  max(set(time_list), key=time_list.count)
+
+	for track in mid.tracks:
+		for msg in track:
+			if msg.type == "note_on" and msg.time > 0:
 				for i in range(int(msg.time//pause_time)):
 					list_notes.append("-")
 			elif msg.type == "note_off": 
 				list_notes.append(key.chr_note(msg.note))
 
-	return filter_note(list_notes)
+	return list_notes
 
