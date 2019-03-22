@@ -6,4 +6,4 @@
 << (midi_to_note("samples/1.mid")
 >> ['C5', 'C6', '-', 'A#5', '-', 'F#5', '-', 'A#5']
 ```
-Обратная для ```python midi_to_note()``` функция note_to_midi()
+Обратная для ```midi_to_note()``` функция ```note_to_midi()```
