@@ -11,6 +11,9 @@ def sigmoid(x):
 def gtang(x):
 	return 2/(1+math.exp(-2*x))-1
 
+def reverse_square(x):
+	pass
+	
 def create_bin_matrix():
 	path = "samples/"
 	[save_to_file("text_presets/"+str(i),convert_to_matrix(midi_to_note(path+elem),4)) for i,elem in enumerate(os.listdir(path))]

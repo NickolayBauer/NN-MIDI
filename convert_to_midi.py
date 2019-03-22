@@ -15,8 +15,6 @@ def note_to_midi(save_file, notes):
 		if i != 0: pause = default_pause 
 		if default_elem != -1:
 			elem = default_elem
-			
-
 		else:
 			pause+=default_pause
 		track.append(Message('note_on', note=elem, velocity=100, time=pause))
