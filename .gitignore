@@ -6,7 +6,9 @@
 *.log
 *.pot
 *.pyc
-__pycache__/
+*/*/*/__pycache __/
+*/*/__pycache __/
+*/__pycache __/
 local_settings.py
 db.sqlite3
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/

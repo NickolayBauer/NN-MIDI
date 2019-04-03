@@ -9,5 +9,4 @@ def ord_note(note):
 	return ind + octava*12
 
 def chr_note(ind):
-	if ind == 0: return 0
 	return note_list[ind%12]+str(ind//12)
