@@ -20,7 +20,7 @@ def empty_array(ind):
 				empty_list.append(0)
 		else:
 			empty_list.append(0)
-	print(empty_list," \n\n")
+	return empty_list
  
 
 
