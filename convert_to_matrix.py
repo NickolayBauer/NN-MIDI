@@ -1,6 +1,8 @@
 import key
 
 def empty_array(ind):
+	half_koef = 0.7
+	full_koef = 0.9
 	empty_list = []
 	mi = 5
 	weight = 30
@@ -13,9 +15,9 @@ def empty_array(ind):
 			empty_list.append(30)
 		elif abs(elem-ind) < 5:
 			if (half_tone == True) and ("#" in key.chr_note(elem)):
-				empty_list.append(int(weight/abs(elem-ind)*0.2))
+				empty_list.append(int(weight/abs(elem-ind)*half_koef))
 			elif half_tone == False and "#" not in key.chr_note(elem):
-				empty_list.append(int(weight/abs(elem-ind)))
+				empty_list.append(int(weight/abs(elem-ind)*full_koef))
 			else:
 				empty_list.append(0)
 		else:

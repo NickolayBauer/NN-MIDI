@@ -2,10 +2,10 @@ from convert_to_matrix import convert_to_matrix, matrix_to_note, empty_array
 from convert_to_midi import note_to_midi, midi_to_note
 from read_bin import save_to_file, load_on_file
 from itertools import zip_longest
-import test
 import math
 import os
 import numpy as np
+import test
 
 ####Создать файлы с матрицами	
 def create_bin_matrix():
@@ -15,11 +15,11 @@ def create_bin_matrix():
 
 #Что-то вроде свёртки
 def mirror1(sample, preset):
-		weight = 0
-		for i, _ in enumerate(preset):
-			for j, _ in enumerate(preset[0]):
-				weight += sample[i][j] * preset[i][j]
-		return weight
+	filter_kernel = [[1,0,1],
+                     [0,5,0],
+                     [1,0,1]]
+
+	return test.test_max_pool(test.test_svert(sample, filter_kernel))
 
 #разбить по чанкам
 def chunks(lst, count):
@@ -29,9 +29,9 @@ def nn(sample, example, chunk):
 	return [mirror1(np.array(exmpl), np.array(smpl)) for exmpl, smpl in zip(chunks(load_on_file(example),chunk), chunks(load_on_file(sample),chunk))]
 
 def go():
-	for i in range(5):
-		print(str(i)+".txt\n")
-		print([elem for elem in nn("example.txt", "text_presets/"+str(i)+".txt", 3)])
+	path = "text_presets/"
+	for elem in os.listdir(path):
+		print(elem+" ",nn("example.txt",  path+elem, 3))
 
 
 go()
