@@ -11,6 +11,7 @@ def clear(file):
         for elem in rows:
             row.append([elem])
         result.append(row)
+        row = []
     return result
 
 def get_collect():
@@ -22,4 +23,6 @@ def get_collect():
     for i, elem in enumerate(os.listdir(path)):
         data_edu.append(clear(load_on_file(path+elem)))
         label_edu.append(i)
-    return (np.array(data_edu), np.array(label_edu))
+    return (np.array(data_edu[:2]), np.array(label_edu[:2]))
+
+get_collect()
