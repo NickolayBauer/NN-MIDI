@@ -1,19 +1,19 @@
 import key
 
 def empty_array(ind):
-	half_koef = 0.7
-	full_koef = 0.9
+	half_koef = 0.8
+	full_koef = 0.85
 	empty_list = []
-	mi = 5
-	weight = 30
+	mi = 3
+	how_octav = 2
+	weight = 255
 	if "#" in key.chr_note(ind): half_tone = True
 	else: half_tone = False
 
-
-	for elem in range(2*12):
+	for elem in range(how_octav*12):
 		if elem == ind:
-			empty_list.append(30)
-		elif abs(elem-ind) < 5:
+			empty_list.append(weight)
+		elif abs(elem-ind) <= mi:
 			if (half_tone == True) and ("#" in key.chr_note(elem)):
 				empty_list.append(int(weight/abs(elem-ind)*half_koef))
 			elif half_tone == False and "#" not in key.chr_note(elem):
@@ -36,4 +36,3 @@ def matrix_to_note(mass, luft):
 			return_list.append("-")
 
 	return return_list
-
