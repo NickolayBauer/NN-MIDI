@@ -1,6 +1,11 @@
 import os
 from read_bin import load_on_file
 import numpy as np
+from itertools import zip_longest
+
+#разбить по чанкам
+def chunks(lst, count):
+    return [list(elem) for elem in zip_longest(*[iter(lst)] * count, fillvalue = [0 for elem in range(len(lst[0]))]) ]
 
 
 def clear(file):
@@ -20,9 +25,11 @@ def get_collect():
     path = "text_presets/"
     data_edu = []
     label_edu = []
+    data_work = []
     for i, elem in enumerate(os.listdir(path)):
         data_edu.append(clear(load_on_file(path+elem)))
         label_edu.append(i)
-    return (np.array(data_edu[:2]), np.array(label_edu[:2]))
 
-get_collect()
+    for elem in chunks(load_on_file("example.txt"),24):
+        data_work.append(clear(elem))
+    return np.array(data_edu[:2]), np.array(label_edu[:2]),np.array(data_work)

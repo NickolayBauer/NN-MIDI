@@ -74,9 +74,10 @@ def cnn_model_fn(features, labels, mode):
 init = tf.global_variables_initializer()
 
 
-(data_edu, label_edu) = get_collect()
+data_edu, label_edu, data_work = get_collect()
 
 data_edu = data_edu/np.float32(255)
+data_work = data_work/np.float32(255)
 
 label_edu = label_edu.astype(np.int32)
 
@@ -91,18 +92,31 @@ tensors_to_log = {"probabilities": "softmax_tensor"}
 logging_hook = tf.train.LoggingTensorHook(
     tensors=tensors_to_log, every_n_iter=50)
 
-# Train the model
-train_input_fn = tf.estimator.inputs.numpy_input_fn(
-    x={"x": data_edu},
-    y=label_edu,
-    batch_size=100,
-    num_epochs=None,
-    shuffle=True)
+# # Train the model
+# train_input_fn = tf.estimator.inputs.numpy_input_fn(
+#     x={"x": data_edu},
+#     y=label_edu,
+#     batch_size=100,
+#     num_epochs=None,
+#     shuffle=True)
+#
+# # train one step and display the probabilties
+# mnist_classifier.train(
+#    input_fn=train_input_fn,
+#    steps=1,
+#    hooks=[logging_hook])
+#
+# mnist_classifier.train(input_fn=train_input_fn, steps=1000)
+#
 
-# train one step and display the probabilties
-mnist_classifier.train(
-   input_fn=train_input_fn,
-   steps=1,
-   hooks=[logging_hook])
+eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+    x={"x": data_work},
+    #y=eval_labels,
+    num_epochs=1,
+    shuffle=False)
 
-mnist_classifier.train(input_fn=train_input_fn, steps=1000)
+
+pred = mnist_classifier.predict(input_fn=eval_input_fn)
+
+for elem in pred:
+    print(elem)
