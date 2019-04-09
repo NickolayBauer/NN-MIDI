@@ -78,7 +78,6 @@ data_edu, label_edu, data_work = get_collect()
 
 data_edu = data_edu/np.float32(255)
 data_work = data_work/np.float32(255)
-
 label_edu = label_edu.astype(np.int32)
 
 
