@@ -32,4 +32,4 @@ def get_collect():
 
     for elem in chunks(load_on_file("example.txt"),24):
         data_work.append(clear(elem))
-    return np.array(data_edu[:2]), np.array(label_edu[:2]),np.array(data_work)
+    return np.array(data_edu), np.array(label_edu),np.array(data_work)
