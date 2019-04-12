@@ -9,6 +9,5 @@ def create_bin_matrix():
     [save_to_file("text_presets/"+str(i),convert_to_matrix(midi_to_note(path+elem),4)) for i,elem in enumerate(os.listdir(path))]
     print("Done! Преобразовано ",len(os.listdir(path))," файлов + корневой")
 
-
 if __name__ == '__main__':
     create_bin_matrix()

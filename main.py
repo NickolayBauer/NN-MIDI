@@ -1,11 +1,7 @@
-import math
-import os
-import test
+from neural_network import lets_go
+from create_file_matrix_from_midi import create_bin_matrix
 
-#прочитать все файлы
-def go():
-	path = "text_presets/"
-	for elem in os.listdir(path):
-		print(path+elem)
 
-go()
+#create_bin_matrix()
+#lets_go("train")
+#lets_go("work")

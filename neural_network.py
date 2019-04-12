@@ -3,12 +3,13 @@ import tensorflow.keras as keras
 import numpy as np
 from collect import get_collect
 
+
+#Описание модели
 def cnn_model_fn(features, labels, mode):
-    """Model function for CNN."""
-    # Input Layer
+    # Входной слой
     input_layer = tf.reshape(features["x"], [-1, 24, 24, 1])
 
-    # Convolutional Layer #1
+    # Слой свёртки #1 с relu
     conv1 = tf.layers.conv2d(
         inputs=input_layer,
         filters=32,
@@ -16,10 +17,10 @@ def cnn_model_fn(features, labels, mode):
         padding="same",
         activation=tf.nn.relu)
 
-    # Pooling Layer #1
+    # Слой макспулинга #1
     pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
-
-    # Convolutional Layer #2 and Pooling Layer #2
+    
+    # Слой свёртки #2 c сигмоидой
     conv2 = tf.layers.conv2d(
         inputs=pool1,
         filters=64,
@@ -27,33 +28,31 @@ def cnn_model_fn(features, labels, mode):
         padding="same",
         activation=tf.nn.sigmoid)
 
+    # Слой макспулинга #2
     pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
-    # Dense Layer
+    # Полносвязный слой 
     pool2_flat = tf.reshape(pool2, [-1, 6 * 6 * 64])
     dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
     dropout = tf.layers.dropout(
         inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
 
-    # Logits Layer
     logits = tf.layers.dense(inputs=dropout, units=5)
 
+    # Генерация предиктов
     predictions = {
-        # Generate predictions (for PREDICT and EVAL mode)
         "classes": tf.argmax(input=logits, axis=1),
-        # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
-        # `logging_hook`.
         "probabilities": tf.nn.softmax(logits, name="softmax_tensor"),
-       # "conv1": conv2
     }
 
+    # Анализ сэмпла
     if mode == tf.estimator.ModeKeys.PREDICT:
         return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
-    # Calculate Loss (for both TRAIN and EVAL modes)
+    # Вычисление ошибки
     loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
 
-    # Configure the Training Op (for TRAIN mode)
+    # Тренировка модели
     if mode == tf.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
         train_op = optimizer.minimize(
@@ -61,7 +60,6 @@ def cnn_model_fn(features, labels, mode):
             global_step=tf.train.get_global_step())
         return tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)
 
-    # Add evaluation metrics (for EVAL mode)
     eval_metric_ops = {
         "accuracy": tf.metrics.accuracy(
             labels=labels, predictions=predictions["classes"])
@@ -70,7 +68,7 @@ def cnn_model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(
         mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
-
+#Использование модели
 def lets_go(mode):
     init = tf.global_variables_initializer()
 
@@ -89,7 +87,6 @@ def lets_go(mode):
         tensors=tensors_to_log, every_n_iter=50)
 
     if mode == "train"
-        # Train the model
         train_input_fn = tf.estimator.inputs.numpy_input_fn(
             x={"x": data_edu},
             y=label_edu,
@@ -97,7 +94,6 @@ def lets_go(mode):
             num_epochs=None,
             shuffle=True)
         
-        # train one step and display the probabilties
         mnist_classifier.train(
            input_fn=train_input_fn,
            steps=1,
