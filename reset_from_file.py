@@ -7,7 +7,7 @@ def reset_from_file(mass):
 	result = []
 	empty_list = [0 for _, _ in enumerate(file)]
 	for file_elem in file:
-		if random.random() <= mass["probabilities"]:
+		if random.random() <= mass["probabilities"][mass["classes"]]:
 			result.append(file_elem)
 		else:
 			result.append(empty_list)

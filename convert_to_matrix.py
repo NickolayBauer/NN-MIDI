@@ -27,12 +27,22 @@ def empty_array(ind):
 def convert_to_matrix(notes_array, luft):
 	return [empty_array(key.ord_note(elem)-luft*12) for elem in notes_array]
 
+# def matrix_to_note(mass, luft):
+# 	return_list = []
+# 	for elem in mass:
+# 		try:
+# 			return_list.append(key.chr_note(elem.index(1)+luft*12))
+# 		except:
+# 			return_list.append("-")
+#
+# 	return return_list
+
 def matrix_to_note(mass, luft):
 	return_list = []
 	for elem in mass:
-		try:
-			return_list.append(key.chr_note(elem.index(1)+luft*12))
-		except:
+		m = max(elem)
+		if m == 0:
 			return_list.append("-")
-
+		else:
+			return_list.append(key.chr_note(elem.index(m)+luft*12))
 	return return_list

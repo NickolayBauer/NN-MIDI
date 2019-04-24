@@ -19,7 +19,7 @@ def cnn_model_fn(features, labels, mode):
 
     # Слой макспулинга #1
     pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
-    
+
     # Слой свёртки #2 c сигмоидой
     conv2 = tf.layers.conv2d(
         inputs=pool1,
@@ -31,7 +31,7 @@ def cnn_model_fn(features, labels, mode):
     # Слой макспулинга #2
     pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
-    # Полносвязный слой 
+    # Полносвязный слой
     pool2_flat = tf.reshape(pool2, [-1, 6 * 6 * 64])
     dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
     dropout = tf.layers.dropout(
@@ -86,22 +86,22 @@ def lets_go(mode):
     logging_hook = tf.train.LoggingTensorHook(
         tensors=tensors_to_log, every_n_iter=50)
 
-    if mode == "train"
+    if mode == "train":
         train_input_fn = tf.estimator.inputs.numpy_input_fn(
             x={"x": data_edu},
             y=label_edu,
             batch_size=100,
             num_epochs=None,
             shuffle=True)
-        
+
         mnist_classifier.train(
            input_fn=train_input_fn,
            steps=1,
            hooks=[logging_hook])
-        
+
         mnist_classifier.train(input_fn=train_input_fn, steps=1000)
-    
-    if mode == "work"
+
+    if mode == "work":
         eval_input_fn = tf.estimator.inputs.numpy_input_fn(
             x={"x": data_work},
             #y=eval_labels,
@@ -109,4 +109,3 @@ def lets_go(mode):
             shuffle=False)
 
         return mnist_classifier.predict(input_fn=eval_input_fn)
-
