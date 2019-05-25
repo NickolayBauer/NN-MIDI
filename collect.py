@@ -33,3 +33,5 @@ def get_collect():
     for elem in chunks(load_on_file("example.txt"),24):
         data_work.append(clear(elem))
     return np.array(data_edu), np.array(label_edu),np.array(data_work)
+
+print(len(get_collect()[2]))

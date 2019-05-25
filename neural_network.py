@@ -5,7 +5,7 @@ from collect import get_collect
 
 
 #Описание модели
-def cnn_model_fn(features, labels, mode):
+def cnn_model_fn(features, labels, mode, how_file):
     # Входной слой
     input_layer = tf.reshape(features["x"], [-1, 24, 24, 1])
 
@@ -37,7 +37,7 @@ def cnn_model_fn(features, labels, mode):
     dropout = tf.layers.dropout(
         inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
 
-    logits = tf.layers.dense(inputs=dropout, units=5)
+    logits = tf.layers.dense(inputs=dropout, units=how_file)
 
     # Генерация предиктов
     predictions = {
@@ -79,7 +79,7 @@ def lets_go(mode):
     label_edu = label_edu.astype(np.int32)
 
     mnist_classifier = tf.estimator.Estimator(
-        model_fn=cnn_model_fn, model_dir="results")
+        model_fn=cnn_model_fn, model_dir="results",how_file = len(data_edu))
 
     tensors_to_log = {"probabilities": "softmax_tensor"}
 
