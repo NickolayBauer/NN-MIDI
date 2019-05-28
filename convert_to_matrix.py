@@ -7,6 +7,7 @@ def empty_array(ind):
 	mi = 3
 	how_octav = 2
 	weight = 255
+	
 	if "#" in key.chr_note(ind): half_tone = True
 	else: half_tone = False
 
@@ -25,7 +26,8 @@ def empty_array(ind):
 	return empty_list
 
 def convert_to_matrix(notes_array, luft):
-	return [empty_array(key.ord_note(elem)-luft*12) for elem in notes_array]
+	result = [empty_array(key.ord_note(elem)-luft*12) for elem in notes_array]
+	return result
 
 # def matrix_to_note(mass, luft):
 # 	return_list = []

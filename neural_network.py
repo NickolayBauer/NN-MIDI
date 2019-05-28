@@ -107,5 +107,5 @@ def lets_go(mode):
             #y=eval_labels,
             num_epochs=1,
             shuffle=False)
-
-        return mnist_classifier.predict(input_fn=eval_input_fn)
+        result = mnist_classifier.predict(input_fn=eval_input_fn)
+        return result

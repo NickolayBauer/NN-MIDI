@@ -7,9 +7,9 @@ import numpy as np
 from key import ord_note
 #create_bin_matrix()
 #lets_go("train")
-fuck = [elem for row in [reset_from_file(elem) for elem in lets_go("work")] for elem in row]
+r_notes = [elem for row in [reset_from_file(elem) for elem in lets_go("work")] for elem in row]
 
-notes = (matrix_to_note(fuck, 4))
+notes = (matrix_to_note(r_notes, 4))
 print([ord_note(elem) for elem in notes])
 
 #note_to_midi("beta.mid", notes)
