@@ -7,22 +7,25 @@ import numpy as np
 from key import ord_note
 import sys
 
-def bedrock(arg):
-	if agr == "work":
+def bedrock(arg, name = "result"):
+	if arg == "work":
 		print("режим обучения!")
-		#r_notes = [elem for row in [reset_from_file(elem) for elem in lets_go("work")] for elem in row]
-		#notes = (matrix_to_note(r_notes, 4))
-		#print([ord_note(elem) for elem in notes])
-	
+		r_notes = [elem for row in [reset_from_file(elem) for elem in lets_go("work")] for elem in row]
+		notes = (matrix_to_note(r_notes, 4))
+		note_to_midi(name+".mid", notes)
+
 	elif arg == "train":
 		print("режим тренировки!")
-		#create_bin_matrix()
-		#lets_go("train")
-		#note_to_midi("beta.mid", notes)
+		create_bin_matrix()
+		lets_go("train")
 
 	else:
-		print("Нет такой команды!")
+		print("Необходимо указать корректную команду")
 
 if __name__ == "__main__":
-    for param in sys.argv:
-        print(param)
+	if len(sys.argv) > 2 and len(sys.argv) < 4:
+		bedrock(sys.argv[1], sys.argv[2])
+	elif len(sys.argv) == 2:
+		bedrock(sys.argv[1])
+	else:
+		print("Неверное число команд")

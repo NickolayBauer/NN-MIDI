@@ -10,6 +10,7 @@ def note_to_midi(save_file, notes):
 	track.append(Message('program_change', program=11))
 	default_pause = 240
 	pause = 0
+	elem = 60
 
 	for i,default_elem in enumerate([key.ord_note(default_elem) for default_elem in notes]):
 		if i != 0: pause = default_pause 
@@ -22,7 +23,7 @@ def note_to_midi(save_file, notes):
 		track.append(Message('note_off', note=elem, velocity=100, time=pause))
 
 	outfile.save(save_file)
-
+	print("Файл "+save_file+" создан !")
 def midi_to_note(load_file):
 	mid = MidiFile(load_file)
 	time_list = []
