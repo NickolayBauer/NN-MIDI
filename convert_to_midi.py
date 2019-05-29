@@ -24,6 +24,8 @@ def note_to_midi(save_file, notes):
 
 	outfile.save(save_file)
 	print("Файл "+save_file+" создан !")
+
+	
 def midi_to_note(load_file):
 	mid = MidiFile(load_file)
 	time_list = []
