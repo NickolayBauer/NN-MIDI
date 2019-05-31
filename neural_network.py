@@ -4,12 +4,58 @@ import numpy as np
 from collect import get_collect
 
 
-#Описание модели
+########################################################################
+#
+# Используемые функции:
+# cnn_model_fn – описание модели нейронной сети;
+# lets_go – использование модели нейронной сети.
+#
+########################################################################
+
+########################################################################
+#
+# cnn_model_fn – описание модели нейронной сети.
+#
+########################################################################
+#
+# Используемые переменные:
+# features - создание свойств для метки;
+# labels - метки обучения;
+# mode - режим использования;
+# сonv1 - первый свёрточный слой;
+# input_layer - входной слой;
+# pool1 - первый слой макспулинга;
+# conv2 - второй свёрточный слой;
+# pool2 - второй слой макспулинга;
+# pool2_flat - сглаженная матрица;
+# dense - полносвязный слой;
+# dropout - слой дропаута;
+# logits - логистический слой;
+# predictions - хранит сформированный прогнозы;
+# loss - накопленная ошибка;
+# optimizer - оптмизация обучения;
+# learning_rate - коэфициент обучения;
+# train_op - содержит процесс тренировки;
+# global_step - шаг обучения;
+# eval_metric_ops - сформированные метрики;
+# inputs - входы в слой;
+# filters - фильтры слоя;
+# kernel_size - окно свёртки;
+# padding - способ свёртки;
+# activations - функция активации;
+# pool_size - окно макспулинга;
+# strides - коэфициент уменьшения данных;
+# unints - количество нейронов;
+# rate - процент выборки нейронов;
+# training - содержит режим работы;
+# axis - оси метрики;
+# name - имя метрики.
+#
+########################################################################
+
 def cnn_model_fn(features, labels, mode):
-    # Входной слой
     input_layer = tf.reshape(features["x"], [-1, 24, 24, 1])
 
-    # Слой свёртки #1 с relu
     conv1 = tf.layers.conv2d(
         inputs=input_layer,
         filters=32,
@@ -17,10 +63,8 @@ def cnn_model_fn(features, labels, mode):
         padding="same",
         activation=tf.nn.relu)
 
-    # Слой макспулинга #1
     pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
 
-    # Слой свёртки #2 c сигмоидой
     conv2 = tf.layers.conv2d(
         inputs=pool1,
         filters=64,
@@ -28,10 +72,8 @@ def cnn_model_fn(features, labels, mode):
         padding="same",
         activation=tf.nn.sigmoid)
 
-    # Слой макспулинга #2
     pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
-    # Полносвязный слой
     pool2_flat = tf.reshape(pool2, [-1, 6 * 6 * 64])
     dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
     dropout = tf.layers.dropout(
@@ -39,20 +81,16 @@ def cnn_model_fn(features, labels, mode):
 
     logits = tf.layers.dense(inputs=dropout, units=5)
 
-    # Генерация предиктов
     predictions = {
         "classes": tf.argmax(input=logits, axis=1),
         "probabilities": tf.nn.softmax(logits, name="softmax_tensor"),
     }
 
-    # Анализ сэмпла
     if mode == tf.estimator.ModeKeys.PREDICT:
         return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
-    # Вычисление ошибки
     loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
 
-    # Тренировка модели
     if mode == tf.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
         train_op = optimizer.minimize(
@@ -68,7 +106,32 @@ def cnn_model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(
         mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
-#Использование модели
+########################################################################
+#
+# lets_go – использование модели нейронной сети.
+#
+########################################################################
+# 
+# Используемые переменные:
+# init - инициализация модели;
+# data_edu - данные для обучения;
+# label_edu - метки для обучения;
+# data_word - данные для работы;
+# mnist_classifier - использование модели;
+# tensors_to_log - логи метрик;
+# logging_hook - оформление метрик;
+# train_input_fn - входной слой тренировки;
+# eval_input_fn - входной слой работы;
+# result - данные о результатах;
+# batch_size - размер тренировочной партии;
+# x - данные;
+# y - метки;
+# shuffle - нужно ли перетасовать выборку;
+# input_fn - входной слой;
+# steps - количество шагов.
+#
+########################################################################
+
 def lets_go(mode):
     init = tf.global_variables_initializer()
 
@@ -104,7 +167,6 @@ def lets_go(mode):
     if mode == "work":
         eval_input_fn = tf.estimator.inputs.numpy_input_fn(
             x={"x": data_work},
-            #y=eval_labels,
             num_epochs=1,
             shuffle=False)
         result = mnist_classifier.predict(input_fn=eval_input_fn)
