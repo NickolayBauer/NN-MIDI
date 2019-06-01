@@ -38,17 +38,16 @@ import sys
 
 def bedrock(arg, name="result"):
 	if arg == "work":
-		print("Режим обучения!")
+		print("Режим восстановления!\n\n")
 		r_notes = [elem for row in [reset_from_file(elem) for elem in lets_go("work")] for elem in row]
 		notes = (matrix_to_note(r_notes, 4))
 		note_to_midi(name + ".mid", notes)
 		print("Восстановлен файл '" + name+"'")
 
 	elif arg == "train":
-		print("Режим тренировки!")
+		print("Режим тренировки!\n\n")
 		create_bin_matrix()
 		lets_go("train")
-		print("Восстановлен файл "+name)
 
 	else:
 		print("Необходимо указать корректную команду")

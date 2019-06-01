@@ -31,5 +31,5 @@ def create_bin_matrix():
 	path = "samples/"
 	[save_to_file("text_presets/"+str(i), ctx(midi_to_note(path+elem),4)) for i, elem in enumerate(os.listdir(path))]
 	c_f = len(os.listdir(path))
-	print("Done! Преобразовано ", c_f," файлов + корневой")
+	print("Готово! Преобразовано ", c_f," файлов + корневой.")
 

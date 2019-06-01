@@ -2,7 +2,8 @@ import tensorflow as tf
 import tensorflow.keras as keras
 import numpy as np
 from collect import get_collect
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 ########################################################################
 #
